@@ -1,0 +1,38 @@
+//name of the graph example
+:name: Recommendations
+//graph example description
+:description: Generate personalized real-time recommendations using a dataset of movie reviews.
+//icon representing graph example
+:icon: resources/icon-movie.svg
+//associated search tags, separate multiple tags with comma
+:tags: recommendations
+//graph example author
+:author: Will Lyons
+//use a script to generate/process data? Set to either path for script, or false if not used
+:use-load-script: false
+//use a graph dump file for initial data set? Set to either path for dump file, or false if not used
+:use-dump-file: data/recommendations.dump
+//use a plugin for the database, separate multiple plugins with comma. 'public' plugins are apoc, graph-algorithms. 
+//other algorithms are specified by path, e.g. apoc,graph-algorithms; Set to false if not used
+:use-plugin: false
+//target version of the database this example should run on
+:target-db-version: 3.5.14
+//specify a Bloom perspective, or false if not used
+:bloom-perspective: false
+//guide for the graph example. Should be friendly enough to be converted into various document formats
+:guide: documentation/intro.adoc
+//rendered guide - will remove later
+:rendered-guide: https://guides.neo4j.com/sandbox/recommendations/index.html
+//guide for modelling decisions. Should be friendly enough to be converted into various document formats
+:model-guide:
+
+= {name} Graph Example
+
+Description: {description}
+
+=== Setup
+
+This is for version: {target-db-version}
+
+unrendered guide:{guide}
+rendered guide available from: {rendered-guide}
