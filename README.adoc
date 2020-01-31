@@ -26,6 +26,8 @@
 //guide for modelling decisions. Should be friendly enough to be converted into various document formats
 :model-guide:
 
+image::{icon}[]
+
 = {name} Graph Example
 
 Description: {description}
