@@ -7,7 +7,7 @@
 //associated search tags, separate multiple tags with comma
 :tags: recommendations
 //graph example author
-:author: Will Lyons
+:author: Will Lyon
 //use a script to generate/process data? Set to either path for script, or false if not used
 :use-load-script: false
 //use a graph dump file for initial data set? Set to either path for dump file, or false if not used
@@ -34,5 +34,6 @@ Description: {description}
 
 This is for version: {target-db-version}
 
-unrendered guide:{guide}
+unrendered guide: {guide}
+
 rendered guide available from: {rendered-guide}
