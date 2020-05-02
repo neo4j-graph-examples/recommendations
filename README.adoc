@@ -16,7 +16,7 @@
 //other algorithms are specified by path, e.g. apoc,graph-algorithms; Set to false if not used
 :use-plugin: false
 //target version of the database this example should run on
-:target-db-version: 3.5.14
+:target-db-version: 3.5.14,4.0.3
 //specify a Bloom perspective, or false if not used
 :bloom-perspective: false
 //guide for the graph example. Should be friendly enough to be converted into various document formats
@@ -39,3 +39,13 @@ This is for version: {target-db-version}
 unrendered guide: {guide}
 
 rendered guide available from: {rendered-guide}
+
+.Database import
+----
+# In Neo4j Desktop Open Terminal of a running 4.x graph (have your password ready)
+git clone https://github.com/neo4j-graph-examples/recommendations
+
+./bin/neo4j-admin load --from recommendations/data/recommendations-4.dump --database recommendations
+./bin/cypher-shell -u neo4j -p <password> -d system -f recommendations/scripts/import.cypher
+echo 'MATCH (n) RETURN head(labels(n)) as label, count(*);' | ./bin/cypher-shell -u recommendations -p s3cr3t -d recommendations
+----
