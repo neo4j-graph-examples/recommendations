@@ -57,7 +57,7 @@ Rendered guide available from: `:play recommendations`
 
 Unrendered guide: link:{guide}[]
 
-Data files: `{data}`
+Data files: `{use-dump-file}`
 
 === Code Examples
 
