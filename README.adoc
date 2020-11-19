@@ -1,51 +1,68 @@
-//name of the graph example
-:name: Recommendations
-//graph example description
-:description: Generate personalized real-time recommendations using a dataset of movie reviews.
-//icon representing graph example
-:icon: resources/icon-movie.svg
-//associated search tags, separate multiple tags with comma
-:tags: recommendations
-//graph example author
-:author: Will Lyon
-//use a script to generate/process data? Set to either path for script, or false if not used
-:use-load-script: false
-//use a graph dump file for initial data set? Set to either path for dump file, or false if not used
-:use-dump-file: data/recommendations.dump
-//use a plugin for the database, separate multiple plugins with comma. 'public' plugins are apoc, graph-algorithms. 
-//other algorithms are specified by path, e.g. apoc,graph-algorithms; Set to false if not used
-:use-plugin: false
-//target version of the database this example should run on
-:target-db-version: 3.5.14,4.0.3
-//specify a Bloom perspective, or false if not used
-:bloom-perspective: false
-//guide for the graph example. Should be friendly enough to be converted into various document formats
-:guide: documentation/intro.adoc
-//rendered guide - will remove later
+:name: recommendations
+:long_name: Recommendations
+:description: Generate personalized real-time recommendations using a dataset of movie reviews
+:icon:
+:logo: documentation/img/icon-movie.svg
+:tags: example-data,dataset,movie-data,recommendations,cypher,algorithms
+:author: William Lyon
+:use-load-script:
+:data:
+:use-dump-file: data/recommendations-40.dump
+:use-plugin:
+:target-db-version: 3.5,4.0
+:bloom-perspective: bloom/recommendations.bloom-perspective
+:guide: documentation/recommendations.neo4j-browser-guide
 :rendered-guide: https://guides.neo4j.com/sandbox/recommendations/index.html
-//guide for modelling decisions. Should be friendly enough to be converted into various document formats
+:model: documentation/img/model.png
+:example: documentation/img/example.png
+
+:query: MATCH (m:Movie {title:$movie})<-[:RATED]-(u:User)-[:RATED]->(rec:Movie) +
+RETURN distinct rec.title AS recommendation LIMIT 20 +
+
+:param-name: movie
+:param-value: Crimson Tide
+:result-column: recommendation
+:expected-result: Phantom of the Opera, The
+
 :model-guide:
+:todo: 
+image::{logo}[width=100]
 
-image::{icon}[]
+== {name} Graph Example
 
-= {name} Graph Example
+Description: _{description}_
 
-Description: {description}
+.Model
+image::{model}[]
+
+.Example
+image::{example}[width=600]
+
+.Example Query:
+[source,cypher,subs=attributes]
+----
+{query}
+----
 
 === Setup
 
-This is for version: {target-db-version}
+This is for version: `{target-db-version}`
 
-unrendered guide: {guide}
+The database is also available on https://demo.neo4jlabs.com:7473
 
-rendered guide available from: {rendered-guide}
+Username "recommendations", password: "recommendations", database: "recommendations"
 
-.Database import
-----
-# In Neo4j Desktop Open Terminal of a running 4.x graph (have your password ready)
-git clone https://github.com/neo4j-graph-examples/recommendations
+Rendered guide available from: `:play recommendations`
+// or `:play {rendered-guide}``
 
-./bin/neo4j-admin load --from recommendations/data/recommendations-4.dump --database recommendations
-./bin/cypher-shell -u neo4j -p <password> -d system -f recommendations/scripts/import.cypher
-echo 'MATCH (n) RETURN head(labels(n)) as label, count(*);' | ./bin/cypher-shell -u recommendations -p s3cr3t -d recommendations
-----
+Unrendered guide: link:{guide}[]
+
+Data files: `{data}`
+
+=== Code Examples
+
+* link:code/javascript/example.js[JavaScript]
+* link:code/java/Example.java[Java]
+* link:code/csharp/Example.cs[C#]
+* link:code/python/example.py[Python]
+* link:code/go/example.go[Go]

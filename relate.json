@@ -1,0 +1,14 @@
+{
+    "name": "recommendations",
+    "description":"Generate personalized real-time recommendations using a dataset of movie reviews",
+    "install": [
+      {
+          "dumpFile": "data/recommendations-35.dump",
+          "targetNeo4jVersion":"3.5"
+      },
+      {
+          "dumpFile": "data/recommendations-40.dump",
+          "targetNeo4jVersion": "^4.0"
+      }
+  ]
+}
