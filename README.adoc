@@ -1,5 +1,5 @@
 :name: recommendations
-:long_name: Recommendations
+:long-name: Recommendations
 :description: Generate personalized real-time recommendations using a dataset of movie reviews
 :icon:
 :logo: documentation/img/icon-movie.svg
@@ -28,7 +28,7 @@ RETURN distinct rec.title AS recommendation LIMIT 20 +
 :todo: 
 image::{logo}[width=100]
 
-== {name} Graph Example
+== {long-name} Graph Example
 
 Description: _{description}_
 
