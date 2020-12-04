@@ -1,18 +1,19 @@
 :name: recommendations
 :long-name: Recommendations
 :description: Generate personalized real-time recommendations using a dataset of movie reviews
-:icon:
-:logo: documentation/img/icon-movie.svg
+:icon: documentation/img/icon-movie.svg
 :tags: example-data,dataset,movie-data,recommendations,cypher,algorithms
 :author: William Lyon
-:use-load-script:
-:data:
+:demodb: true
+:data: false
+:use-load-script: false
 :use-dump-file: data/recommendations-40.dump
-:use-plugin:
+:zip-file: false
+:use-plugin: false
 :target-db-version: 3.5,4.0
 :bloom-perspective: bloom/recommendations.bloom-perspective
 :guide: documentation/recommendations.neo4j-browser-guide
-:rendered-guide: https://guides.neo4j.com/sandbox/recommendations/index.html
+:rendered-guide: https://guides.neo4j.com/sandbox/{name}/index.html
 :model: documentation/img/model.png
 :example: documentation/img/example.png
 
@@ -24,13 +25,16 @@ RETURN distinct rec.title AS recommendation LIMIT 20 +
 :result-column: recommendation
 :expected-result: Phantom of the Opera, The
 
-:model-guide:
-:todo: 
+:todo: false
 image::{logo}[width=100]
 
 == {long-name} Graph Example
 
 Description: _{description}_
+
+ifeval::[{todo} != false]
+To Do: {todo}
+endif::[]
 
 .Model
 image::{model}[]
@@ -46,18 +50,61 @@ image::{example}[width=600]
 
 === Setup
 
-This is for version: `{target-db-version}`
+This is for Neo4j version: {target-db-version}
 
+ifeval::[{use-plugin} != false]
+Required plugins: {use-plugin}
+endif::[]
+
+ifeval::[{demodb} != false]
 The database is also available on https://demo.neo4jlabs.com:7473
 
-Username "recommendations", password: "recommendations", database: "recommendations"
+Username "{name}", password: "{name}", database: "{name}"
+endif::[]
 
-Rendered guide available from: `:play recommendations`
-// or `:play {rendered-guide}``
+Rendered guide available via: `:play {rendered-guide}`
 
 Unrendered guide: link:{guide}[]
 
-Data files: `{use-dump-file}`
+Load graph data via the following:
+
+ifeval::[{data} != false]
+==== Data files: `{data}`
+
+Import flat files (csv, json, etc) using Cypher's https://neo4j.com/docs/cypher-manual/current/clauses/load-csv/[`LOAD CSV`], https://neo4j.com/labs/apoc/[APOC library], or https://neo4j.com/developer/data-import/[other methods].
+endif::[]
+
+ifeval::[{use-dump-file} != false]
+==== Dump file: `{use-dump-file}`
+
+* Drop the file into the `Files` section of a project in Neo4j Desktop. Then choose the option to `Create new DBMS from dump` option from the file options.
+
+* Use the neo4j-admin tool to load data from the command line with the command below.
+
+[source,shell,subs=attributes]
+----
+bin/neo4j-admin load --from {use-dump-file} [--database "database"]
+----
+
+* Upload the dump file to Neo4j Aura via https://console.neo4j.io/#import-instructions
+endif::[]
+
+ifeval::[{use-load-script} != false]
+==== Data load script: `{use-load-script}`
+
+[source,shell,subs=attributes]
+----
+bin/cypher-shell -u neo4j -p "password" -f {use-load-script} [-d "database"]
+----
+
+Or import in Neo4j Browser by dragging or pasting the content of {use-load-script}.
+endif::[]
+
+ifeval::[{zip-file} != false]
+==== Zip file
+
+Download the zip file link:{repo}/raw/master/{name}.zip[{name}.zip] and add it as "project from file" to https://neo4j.com/developer/neo4j-desktop[Neo4j Desktop^].
+endif::[]
 
 === Code Examples
 
@@ -66,3 +113,7 @@ Data files: `{use-dump-file}`
 * link:code/csharp/Example.cs[C#]
 * link:code/python/example.py[Python]
 * link:code/go/example.go[Go]
+
+=== Feedback
+
+Feel free to submit issues or pull requests for improvement on this repository.
