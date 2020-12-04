@@ -26,7 +26,7 @@ RETURN distinct rec.title AS recommendation LIMIT 20 +
 :expected-result: Phantom of the Opera, The
 
 :todo: false
-image::{logo}[width=100]
+image::{icon}[width=100]
 
 == {long-name} Graph Example
 
