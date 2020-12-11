@@ -1,30 +1,32 @@
 // go mod init main
 // go run example.go
 package main
+
 import (
 	"fmt"
-	"github.com/neo4j/neo4j-go-driver/neo4j" //Go 1.8
+	"github.com/neo4j/neo4j-go-driver/v4/neo4j"
+	"io"
+	"reflect"
 )
+
 func main() {
-	s, err := runQuery("bolt://<HOST>:<BOLTPORT>", "<USERNAME>", "<PASSWORD>")
+	results, err := runQuery("bolt://<HOST>:<BOLTPORT>", "neo4j", "<USERNAME>", "<PASSWORD>")
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(s)
+	for _, result := range results {
+		fmt.Println(result)
+	}
 }
-func runQuery(uri, username, password string) ([]string, error) {
-	configForNeo4j4 := func(conf *neo4j.Config) { conf.Encrypted = false }
-	driver, err := neo4j.NewDriver(uri, neo4j.BasicAuth(username, password, ""), configForNeo4j4)
+
+func runQuery(uri, database, username, password string) (result []string, err error) {
+	driver, err := neo4j.NewDriver(uri, neo4j.BasicAuth(username, password, ""))
 	if err != nil {
 		return nil, err
 	}
-	defer driver.Close()
-	sessionConfig := neo4j.SessionConfig{AccessMode: neo4j.AccessModeRead, DatabaseName: "neo4j"}
-	session, err := driver.NewSession(sessionConfig)
-	if err != nil {
-		return nil, err
-	}
-	defer session.Close()
+	defer func() {err = handleClose(driver, err)}()
+	session := driver.NewSession(neo4j.SessionConfig{AccessMode: neo4j.AccessModeRead, DatabaseName: database})
+	defer func() {err = handleClose(session, err)}()
 	results, err := session.ReadTransaction(func(transaction neo4j.Transaction) (interface{}, error) {
 		result, err := transaction.Run(
 			`
@@ -40,7 +42,7 @@ func runQuery(uri, username, password string) ([]string, error) {
 		for result.Next() {
 			value, found := result.Record().Get("recommendation")
 			if found {
-			  arr = append(arr, value.(string))
+				arr = append(arr, value.(string))
 			}
 		}
 		if err = result.Err(); err != nil {
@@ -51,5 +53,17 @@ func runQuery(uri, username, password string) ([]string, error) {
 	if err != nil {
 		return nil, err
 	}
-	return results.([]string), err
+	result = results.([]string)
+	return result, err
+}
+
+func handleClose(closer io.Closer, previousError error) error {
+	err := closer.Close()
+	if err == nil {
+		return previousError
+	}
+	if previousError == nil {
+		return err
+	}
+	return fmt.Errorf("%v closure error occurred:\n%s\ninitial error was:\n%w", reflect.TypeOf(closer), err.Error(), previousError)
 }
