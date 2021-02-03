@@ -315,7 +315,7 @@ Recommend items that are similar to those that a user is viewing, rated highly o
 
 [source,cypher,subs=attributes]
 ----
-MATCH p=(m:Movie {title: "Net, The"})-[:ACTED_IN|:IN_GENRE|:DIRECTED*2]-()
+MATCH p=(m:Movie {title: "Net, The"})-[:ACTED_IN|IN_GENRE|DIRECTED*2]-()
 RETURN p LIMIT 25
 ----
 
@@ -487,11 +487,11 @@ We can apply this same approach to all "traits" of the movie (genre, actors, dir
 
 [source,cypher,subs=attributes]
 ----
-MATCH (m:Movie {title: "Inception"})-[:IN_GENRE|:ACTED_IN|:DIRECTED]-(t)<-[:IN_GENRE|:ACTED_IN|:DIRECTED]-(other:Movie)
+MATCH (m:Movie {title: "Inception"})-[:IN_GENRE|ACTED_IN|DIRECTED]-(t)<-[:IN_GENRE|ACTED_IN|DIRECTED]-(other:Movie)
 WITH m, other, COUNT(t) AS intersection, COLLECT(t.name) AS i
-MATCH (m)-[:IN_GENRE|:ACTED_IN|:DIRECTED]-(mt)
+MATCH (m)-[:IN_GENRE|ACTED_IN|DIRECTED]-(mt)
 WITH m,other, intersection,i, COLLECT(mt.name) AS s1
-MATCH (other)-[:IN_GENRE|:ACTED_IN|:DIRECTED]-(ot)
+MATCH (other)-[:IN_GENRE|ACTED_IN|DIRECTED]-(ot)
 WITH m,other,intersection,i, s1, COLLECT(ot.name) AS s2
 
 WITH m,other,intersection,s1,s2
