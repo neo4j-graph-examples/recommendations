@@ -1,5 +1,5 @@
 [build]
-build = "cp schema.graphql lambda/graphql/schema.graphql"
+command = "cp schema.graphql lambda/graphql/schema.graphql"
 base = "graphql"
 functions = "lambda"
 
