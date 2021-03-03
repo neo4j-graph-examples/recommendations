@@ -4,7 +4,7 @@ const { Neo4jGraphQL } = require("@neo4j/graphql");
 const fs = require("fs");
 
 const typeDefs = fs
-  .readFileSync("schema.graphql")
+  .readFileSync(require.resolve("schema.graphql"))
   .toString("utf-8");
 
 const neoSchema = new Neo4jGraphQL({
