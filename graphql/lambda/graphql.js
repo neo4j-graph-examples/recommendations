@@ -1,67 +1,12 @@
 const { ApolloServer } = require("apollo-server-lambda");
 const neo4j = require("neo4j-driver");
 const { Neo4jGraphQL } = require("@neo4j/graphql");
+const fs = require("fs");
+const path = require("path");
 
-const typeDefs = /* GraphQL */ `
-  type Movie {
-    budget: Int
-    countries: [String]
-    imdbId: ID
-    imdbRating: Float
-    imdbVotes: Int
-    languages: [String]
-    movieId: ID!
-    plot: String
-    poster: String
-    released: String
-    revenue: Int
-    runtime: Int
-    title: String
-    tmdbId: String
-    url: String
-    year: String
-    genres: [Genre] @relationship(type: "IN_GENRE", direction: "OUT")
-  }
-
-  type Genre {
-    name: String
-    movies: [Movie] @relationship(type: "IN_GENRE", direction: "IN")
-  }
-
-  type User {
-    userId: ID!
-    name: String
-    rated: [Movie] @relationship(type: "RATED", direction: "OUT")
-  }
-
-  type Actor {
-    bio: String
-    born: Date
-    bornIn: String
-    died: Date
-    imdbIb: String
-    name: String
-    poster: String
-    tmdbId: String
-    url: String
-    acted_in: [Movie] @relationship(type: "ACTED_IN", direction: "OUT")
-    actors: [Actor] @relationship(type: "ACTED_IN", direction: "IN")
-    directors: [Director] @relationship(type: "DIRECTED", direction: "IN")
-  }
-
-  type Director {
-    bio: String
-    born: Date
-    bornIn: String
-    died: Date
-    imdbIb: String
-    name: String
-    poster: String
-    tmdbId: String
-    url: String
-    directed: [Movie] @relationship(type: "DIRECTED", direction: "OUT")
-  }
-`;
+const typeDefs = fs
+  .readFileSync(path.join(__dirname, "../", "schema.graphql"))
+  .toString("utf-8");
 
 const neoSchema = new Neo4jGraphQL({
   typeDefs,
