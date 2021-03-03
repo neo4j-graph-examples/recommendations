@@ -1,0 +1,58 @@
+type Movie {
+    budget: Int
+    countries: [String]
+    imdbId: ID
+    imdbRating: Float
+    imdbVotes: Int
+    languages: [String]
+    movieId: ID!
+    plot: String
+    poster: String
+    released: String
+    revenue: Int
+    runtime: Int
+    title: String
+    tmdbId: String
+    url: String
+    year: String
+    genres: [Genre] @relationship(type: "IN_GENRE", direction: "OUT")
+    actors: [Actor] @relationship(type: "ACTED_IN", direction: "IN")
+    directors: [Director] @relationship(type: "DIRECTED", direction: "IN")
+}
+
+type Genre {
+    name: String
+    movies: [Movie] @relationship(type: "IN_GENRE", direction: "IN")
+}
+
+type User {
+    userId: ID!
+    name: String
+    rated: [Movie] @relationship(type: "RATED", direction: "OUT")
+}
+
+type Actor {
+    bio: String
+    born: Date
+    bornIn: String
+    died: Date
+    imdbIb: String
+    name: String
+    poster: String
+    tmdbId: String
+    url: String
+    acted_in: [Movie] @relationship(type: "ACTED_IN", direction: "OUT")
+}
+
+type Director {
+bio: String
+    born: Date
+    bornIn: String
+    died: Date
+    imdbIb: String
+    name: String
+    poster: String
+    tmdbId: String
+    url: String
+    directed: [Movie] @relationship(type: "DIRECTED", direction: "OUT")
+}

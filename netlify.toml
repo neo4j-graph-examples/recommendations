@@ -1,0 +1,8 @@
+[build]
+base = "graphql"
+functions = "lambda"
+
+[[redirects]]
+from = "/"
+to = "/.netlify/functions/graphql"
+status = 200
