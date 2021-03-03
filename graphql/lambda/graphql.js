@@ -2,10 +2,9 @@ const { ApolloServer } = require("apollo-server-lambda");
 const neo4j = require("neo4j-driver");
 const { Neo4jGraphQL } = require("@neo4j/graphql");
 const fs = require("fs");
-const path = require("path");
 
 const typeDefs = fs
-  .readFileSync(path.join(__dirname, "schema.graphql"))
+  .readFileSync("schema.graphql")
   .toString("utf-8");
 
 const neoSchema = new Neo4jGraphQL({
