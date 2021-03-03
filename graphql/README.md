@@ -1,37 +1,53 @@
-# recommendations-graphql
+# Recommendations GraphQL API
 
-Try it live on Codesandbox [here](https://codesandbox.io/s/github/johnymontana/recommendations/tree/master/graphql?file=/schema.graphql)
+This directory contains a Node.js GraphQL API application using [`@neo4j/graphql`](https://www.npmjs.com/package/@neo4j/graphql).
+
+Try it live on Codesandbox [here](https://codesandbox.io/s/github/neo4j-graph-examples/recommendations/tree/main/graphql?file=/schema.graphql)
+
+## Setup
+
+First, edit `.env`, replacing the defaults with your database connection string, user, and database (optional):
+
+```
+NEO4J_URI=
+NEO4J_USER=
+NEO4J_PASSWORD=
+NEO4J_DATABASE=
+```
+
+The `NEO4J_DATABASE` environment variable is optional and can be omitted. When omitted the default database will be used.
+
+Next, install dependencies.
+
+```
+npm install
+```
+
+Then start the API application,
+
+```
+npm run start
+```
+
+This will start a local GraphQL API server at `localhost:4000`.
 
 ## Example GraphQL Queries
 
 ```GraphQL
 {
-  businesses(
-    where: {
-      location_LT: {
-        point: { latitude: 46.870036, longitude: -113.990976 }
-        distance: 100
-      }
-    }
-    options: { limit: 10 }
-  ) {
-    name
-    reviews {
-      text
-    }
-    recommended(first: 2) {
+  movies(where: { year_GT: 2014 }, options: { limit: 10 }) {
+    title
+    genres {
       name
-      in_category {
-        name
-      }
     }
-    location {
-      latitude
-      longitude
+    similar(first: 5) {
+      title
+    }
+    actors {
+      name
     }
   }
 }
-
 ```
 
 
