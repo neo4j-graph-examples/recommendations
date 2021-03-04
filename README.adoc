@@ -114,6 +114,10 @@ endif::[]
 * link:code/python/example.py[Python]
 * link:code/go/example.go[Go]
 
+=== GraphQL API
+
+See link:graphql[`/graphql` directory] for Node.js GraphQL API server example using link:https://www.npmjs.com/package/@neo4j/graphql[`@neo4j/graphql`]
+
 === Feedback
 
 Feel free to submit issues or pull requests for improvement on this repository.

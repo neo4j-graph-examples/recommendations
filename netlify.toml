@@ -1,0 +1,9 @@
+[build]
+command = "cp schema.graphql lambda/graphql/schema.graphql"
+base = "graphql"
+functions = "lambda"
+
+[[redirects]]
+from = "/"
+to = "/.netlify/functions/graphql"
+status = 200
