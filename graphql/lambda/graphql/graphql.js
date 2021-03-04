@@ -3,6 +3,8 @@ const neo4j = require("neo4j-driver");
 const { Neo4jGraphQL } = require("@neo4j/graphql");
 const fs = require("fs");
 
+// The schema.graphql file is copied to this directory as part of the Netlify build process
+// see netlify.toml at project root
 const typeDefs = fs
   .readFileSync(require.resolve("./schema.graphql"))
   .toString("utf-8");
