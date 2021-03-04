@@ -116,7 +116,7 @@ endif::[]
 
 === GraphQL API
 
-See link:graphql[`/graphql` directory] for Node.js GraphQL API server example using link:https://www.npmjs.com/package/@neo4j/graphql`@neo4j/graphql`
+See link:graphql[`/graphql` directory] for Node.js GraphQL API server example using link:https://www.npmjs.com/package/@neo4j/graphql[`@neo4j/graphql`]
 
 === Feedback
 
