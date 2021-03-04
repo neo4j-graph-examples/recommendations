@@ -1,8 +1,10 @@
+[![Open in CodeSandbox](https://img.shields.io/badge/Open%20in-CodeSandbox-blue?style=flat-square&logo=codesandbox)](https://codesandbox.io/s/github/neo4j-graph-examples/recommendations/tree/main/graphql?file=/schema.graphql)
+
 # Recommendations GraphQL API
 
 This directory contains a Node.js GraphQL API application using [`@neo4j/graphql`](https://www.npmjs.com/package/@neo4j/graphql).
 
-Try it live on Codesandbox [here](https://codesandbox.io/s/github/neo4j-graph-examples/recommendations/tree/main/graphql?file=/schema.graphql)
+Try it live on CodeSandbox [here](https://codesandbox.io/s/github/neo4j-graph-examples/recommendations/tree/main/graphql?file=/schema.graphql)
 
 ## Setup
 
@@ -49,6 +51,5 @@ This will start a local GraphQL API server at `localhost:4000`.
   }
 }
 ```
-
 
 ![](img/playground1.png)
