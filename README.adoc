@@ -17,14 +17,6 @@
 :model: documentation/img/model.png
 :example: documentation/img/example.png
 
-:query: MATCH (m:Movie {title:$movie})<-[:RATED]-(u:User)-[:RATED]->(rec:Movie) +
-RETURN distinct rec.title AS recommendation LIMIT 20 +
-
-:param-name: movie
-:param-value: Crimson Tide
-:result-column: recommendation
-:expected-result: Phantom of the Opera, The
-
 :todo: false
 image::{icon}[width=100]
 
@@ -43,9 +35,10 @@ image::{model}[]
 image::{example}[width=600]
 
 .Example Query:
-[source,cypher,subs=attributes]
+[source,cypher,role=query-example,param-name=movie,param-value="Crimson Tide",result-column=recommendation,expected-result="Phantom of the Opera, The"]
 ----
-{query}
+MATCH (m:Movie {title:$movie})<-[:RATED]-(u:User)-[:RATED]->(rec:Movie)
+RETURN distinct rec.title AS recommendation LIMIT 20
 ----
 
 === Setup
