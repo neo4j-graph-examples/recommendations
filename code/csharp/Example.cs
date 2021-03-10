@@ -18,7 +18,7 @@ namespace dotnet {
 
     var cypherQuery =
       @"
-      MATCH (m:Movie {title:$movie})<-[:RATED]-(u:User)-[:RATED]->(rec:Movie) 
+      MATCH (m:Movie {title:$movie})<-[:RATED]-(u:User)-[:RATED]->(rec:Movie)
       RETURN distinct rec.title AS recommendation LIMIT 20
       ";
 
