@@ -25,9 +25,9 @@ const typeDefs = /* GraphQL */ `
     tmdbId: String
     url: String
     year: Int
-    genres: [Genre] @relationship(type: "IN_GENRE", direction: "OUT")
-    actors: [Actor] @relationship(type: "ACTED_IN", direction: "IN")
-    directors: [Director] @relationship(type: "DIRECTED", direction: "IN")
+    genres: [Genre] @relationship(type: "IN_GENRE", direction: OUT)
+    actors: [Actor] @relationship(type: "ACTED_IN", direction: IN)
+    directors: [Director] @relationship(type: "DIRECTED", direction: IN)
     similar(first: Int = 3): [Movie]
       @cypher(
         statement: """
@@ -40,13 +40,13 @@ const typeDefs = /* GraphQL */ `
 
   type Genre {
     name: String
-    movies: [Movie] @relationship(type: "IN_GENRE", direction: "IN")
+    movies: [Movie] @relationship(type: "IN_GENRE", direction: IN)
   }
 
   type User {
     userId: ID!
     name: String
-    rated: [Movie] @relationship(type: "RATED", direction: "OUT")
+    rated: [Movie] @relationship(type: "RATED", direction: OUT)
   }
 
   type Actor {
@@ -59,7 +59,7 @@ const typeDefs = /* GraphQL */ `
     poster: String
     tmdbId: String
     url: String
-    acted_in: [Movie] @relationship(type: "ACTED_IN", direction: "OUT")
+    acted_in: [Movie] @relationship(type: "ACTED_IN", direction: OUT)
   }
 
   type Director {
@@ -72,7 +72,7 @@ const typeDefs = /* GraphQL */ `
     poster: String
     tmdbId: String
     url: String
-    directed: [Movie] @relationship(type: "DIRECTED", direction: "OUT")
+    directed: [Movie] @relationship(type: "DIRECTED", direction: OUT)
   }
 `;
 
