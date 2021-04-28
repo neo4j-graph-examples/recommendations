@@ -17,7 +17,7 @@ public class Example {
     try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
 
       String cypherQuery =
-        "MATCH (m:Movie {title:$movie})<-[:RATED]-(u:User)-[:RATED]->(rec:Movie) " +
+        "MATCH (m:Movie {title:$movie})<-[:RATED]-(u:User)-[:RATED]->(rec:Movie)\n" +
         "RETURN distinct rec.title AS recommendation LIMIT 20";
 
       var result = session.readTransaction(

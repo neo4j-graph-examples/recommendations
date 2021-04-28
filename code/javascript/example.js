@@ -7,7 +7,7 @@ const driver = neo4j.driver('bolt://<HOST>:<BOLTPORT>',
 
 const query =
   `
-  MATCH (m:Movie {title:$movie})<-[:RATED]-(u:User)-[:RATED]->(rec:Movie) 
+  MATCH (m:Movie {title:$movie})<-[:RATED]-(u:User)-[:RATED]->(rec:Movie)
   RETURN distinct rec.title AS recommendation LIMIT 20
   `;
 
