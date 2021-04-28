@@ -7,74 +7,7 @@ const driver = neo4j.driver(
   neo4j.auth.basic("<USERNAME>", "<PASSWORD>")
 );
 
-const typeDefs = /* GraphQL */ `
-  type Movie {
-    budget: Int
-    countries: [String]
-    imdbId: ID
-    imdbRating: Float
-    imdbVotes: Int
-    languages: [String]
-    movieId: ID!
-    plot: String
-    poster: String
-    released: String
-    revenue: Int
-    runtime: Int
-    title: String
-    tmdbId: String
-    url: String
-    year: Int
-    genres: [Genre] @relationship(type: "IN_GENRE", direction: OUT)
-    actors: [Actor] @relationship(type: "ACTED_IN", direction: IN)
-    directors: [Director] @relationship(type: "DIRECTED", direction: IN)
-    similar(first: Int = 3): [Movie]
-      @cypher(
-        statement: """
-        MATCH (this)-[:ACTED_IN|:DIRECTED|:IN_GENRE]-(overlap)-[:ACTED_IN|:DIRECTED|:IN_GENRE]-(rec:Movie)
-        WITH rec, COUNT(*) AS score
-        RETURN rec ORDER BY score DESC LIMIT $first
-        """
-      )
-  }
-
-  type Genre {
-    name: String
-    movies: [Movie] @relationship(type: "IN_GENRE", direction: IN)
-  }
-
-  type User {
-    userId: ID!
-    name: String
-    rated: [Movie] @relationship(type: "RATED", direction: OUT)
-  }
-
-  type Actor {
-    bio: String
-    born: Date
-    bornIn: String
-    died: Date
-    imdbIb: String
-    name: String
-    poster: String
-    tmdbId: String
-    url: String
-    acted_in: [Movie] @relationship(type: "ACTED_IN", direction: OUT)
-  }
-
-  type Director {
-    bio: String
-    born: Date
-    bornIn: String
-    died: Date
-    imdbIb: String
-    name: String
-    poster: String
-    tmdbId: String
-    url: String
-    directed: [Movie] @relationship(type: "DIRECTED", direction: OUT)
-  }
-`;
+let typeDefs;
 
 // Create executable GraphQL schema from GraphQL type definitions,
 // using @neo4j/graphql to autogenerate resolvers
