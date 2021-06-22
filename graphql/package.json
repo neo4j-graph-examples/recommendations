@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@neo4j/graphql": "^1.0.2",
+    "@neo4j/graphql": "^1.0.3",
     "apollo-server": "^2.21.0",
     "apollo-server-lambda": "^2.21.0",
     "dotenv": "^8.2.0",
