@@ -8,7 +8,11 @@
       },
       {
           "dumpFile": "data/recommendations-40.dump",
-          "targetNeo4jVersion": "^4.0"
+          "targetNeo4jVersion": "4.0.*-4.2.*"
+      },
+      {
+          "dumpFile": "data/recommendations-43.dump",
+          "targetNeo4jVersion": "^4.3"
       }
   ]
 }

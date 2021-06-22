@@ -269,18 +269,17 @@ Let's look at a Cypher query that answers the question "How many reviews does ea
 ----
 MATCH (m:Movie)<-[:RATED]-(u:User)
 WHERE m.title CONTAINS "Matrix"
-WITH m.title AS movie, COUNT(*) AS reviews
-RETURN movie, reviews
-ORDER BY reviews DESC
-LIMIT 5;
+WITH m, COUNT(*) AS reviews
+RETURN m.title AS movie, reviews
+ORDER BY reviews DESC LIMIT 5;
 ----
 
 [width=100,cols="1,3,2"]
 |===
 | find      | `+MATCH (m:Movie)<-[:RATED]-(u:User)+`         | Search for an existing graph pattern
 | filter    | `WHERE m.title CONTAINS "Matrix"`              | Filter matching paths to only those matching a predicate
-| aggregate | `WITH m.title AS movie, COUNT(*) AS reviews`   | Count number of paths matched for each movie
-| return    | `RETURN movie, reviews`                        | Specify columns to be returned by the statement
+| aggregate | `WITH m, COUNT(*) AS reviews`   | Count number of paths matched for each movie
+| return    | `RETURN m.title as movie, reviews`                        | Specify columns to be returned by the statement
 | order     | `ORDER BY reviews DESC`                        | Order by number of reviews, in descending order
 | limit     | `LIMIT 5;`                                     | Only return first five records
 |===
@@ -344,8 +343,9 @@ Use the preferences, ratings and actions of other users in the network to find i
 [source,cypher,subs=attributes]
 ----
 MATCH (m:Movie {title: "Crimson Tide"})<-[:RATED]-(u:User)-[:RATED]->(rec:Movie)
-RETURN rec.title AS recommendation, COUNT(*) AS usersWhoAlsoWatched
+WITH rec, COUNT(*) AS usersWhoAlsoWatched
 ORDER BY usersWhoAlsoWatched DESC LIMIT 25
+RETURN rec.title AS recommendation, usersWhoAlsoWatched
 ----
 
 ++++

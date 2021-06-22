@@ -268,8 +268,8 @@
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie)&lt;-[:RATED]-(u:User)
 WHERE m.title CONTAINS "Matrix"
-WITH m.title AS movie, COUNT(*) AS reviews
-RETURN movie, reviews
+WITH m, COUNT(*) AS reviews
+RETURN m.title AS movie, reviews
 ORDER BY reviews DESC
 LIMIT 5;<!--/code--></pre>
 </div>
@@ -293,12 +293,12 @@ LIMIT 5;<!--/code--></pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">aggregate</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WITH m.title AS movie, COUNT(*) AS reviews</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WITH m, COUNT(*) AS reviews</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Count number of paths matched for each movie</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">return</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RETURN movie, reviews</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RETURN m.title AS movie, reviews</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Specify columns to be returned by the statement</p></td>
 </tr>
 <tr>
@@ -358,8 +358,9 @@ RETURN p LIMIT 25<!--/code--></pre>
 <div class="title">"Users who bought this thing, also bought that other thing."</div>
 <div class="content">
 <pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie {title: "Crimson Tide"})<-[:RATED]-(u:User)-[:RATED]->(rec:Movie)
-RETURN rec.title AS recommendation, COUNT(*) AS usersWhoAlsoWatched
-ORDER BY usersWhoAlsoWatched DESC LIMIT 25<!--/code--></pre>
+WITH rec, COUNT(*) AS usersWhoAlsoWatched
+ORDER BY usersWhoAlsoWatched DESC LIMIT 25
+RETURN rec.title AS recommendation, usersWhoAlsoWatched<!--/code--></pre>
 </div>
 </div>
 </div>
