@@ -53,7 +53,6 @@ type Actor {
   bio: String
   born: Date
   bornIn: String
-  died: Date
   imdbIb: String
   name: String
   poster: String
@@ -64,9 +63,7 @@ type Actor {
 
 type Director {
   bio: String
-  born: Date
   bornIn: String
-  died: Date
   imdbIb: String
   name: String
   poster: String
