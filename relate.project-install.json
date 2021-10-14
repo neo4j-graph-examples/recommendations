@@ -4,15 +4,18 @@
     "dbms": [
       {
           "dumpFile": "data/recommendations-35.dump",
-          "targetNeo4jVersion":"3.5"
+          "targetNeo4jVersion":"3.5",
+          "plugins": ["apoc", "graph-data-science"]
       },
       {
           "dumpFile": "data/recommendations-40.dump",
-          "targetNeo4jVersion": "4.0.* - 4.2.*"
+          "targetNeo4jVersion": "4.0.* - 4.2.*",
+          "plugins": ["apoc", "graph-data-science"]
       },
       {
           "dumpFile": "data/recommendations-43.dump",
-          "targetNeo4jVersion": "^4.3"
+          "targetNeo4jVersion": "^4.3",
+          "plugins": ["apoc", "graph-data-science"]
       }
   ]
 }
