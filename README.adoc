@@ -16,6 +16,8 @@
 :rendered-guide: https://guides.neo4j.com/sandbox/{name}/index.html
 :model: documentation/img/model.png
 :example: documentation/img/example.png
+:nodes: 28863
+:relationships: 166261
 
 :todo: false
 image::{icon}[width=100]
@@ -27,6 +29,8 @@ Description: _{description}_
 ifeval::[{todo} != false]
 To Do: {todo}
 endif::[]
+
+Nodes {nodes} Relationships {relationships}
 
 .Model
 image::{model}[]
