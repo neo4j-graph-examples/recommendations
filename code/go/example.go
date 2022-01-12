@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	results, err := runQuery("bolt://<HOST>:<BOLTPORT>", "neo4j", "<USERNAME>", "<PASSWORD>")
+	results, err := runQuery("neo4j://<HOST>:<BOLTPORT>", "neo4j", "<USERNAME>", "<PASSWORD>")
 	if err != nil {
 		panic(err)
 	}
