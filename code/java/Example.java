@@ -11,7 +11,7 @@ public class Example {
 
   public static void main(String...args) {
 
-    Driver driver = GraphDatabase.driver("bolt://<HOST>:<BOLTPORT>",
+    Driver driver = GraphDatabase.driver("neo4j://<HOST>:<BOLTPORT>",
               AuthTokens.basic("<USERNAME>","<PASSWORD>"));
 
     try (Session session = driver.session(SessionConfig.forDatabase("neo4j"))) {
