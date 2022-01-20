@@ -13,7 +13,7 @@ using Neo4j.Driver;
 namespace dotnet {
   class Example {
   static async Task Main() {
-    var driver = GraphDatabase.Driver("bolt://<HOST>:<BOLTPORT>", 
+    var driver = GraphDatabase.Driver("neo4j://<HOST>:<BOLTPORT>", 
                     AuthTokens.Basic("<USERNAME>", "<PASSWORD>"));
 
     var cypherQuery =
