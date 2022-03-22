@@ -668,7 +668,7 @@ WITH p1, p2, collect(x.rating) AS p1Ratings, collect(x2.rating) AS p2Ratings
 WHERE size(p1Ratings) > 10
 RETURN p1.name AS from,
        p2.name AS to,
-       gds.alpha.similarity.cosine(p1Ratings, p2Ratings) AS similarity
+       gds.similarity.cosine(p1Ratings, p2Ratings) AS similarity
 ORDER BY similarity DESC
 ----
 
