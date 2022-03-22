@@ -3,14 +3,14 @@
 :description: Generate personalized real-time recommendations using a dataset of movie reviews
 :icon: documentation/img/icon-movie.svg
 :tags: example-data,dataset,movie-data,recommendations,cypher,algorithms
-:author: William Lyon
+:author: William Lyon, updated for GDS 2 by Clair Sullivan
 :demodb: true
 :data: false
 :use-load-script: false
 :use-dump-file: data/recommendations-40.dump
 :zip-file: false
 :use-plugin: false
-:target-db-version: 3.5,4.0
+:target-db-version: 4.0
 :bloom-perspective: bloom/recommendations.bloom-perspective
 :guide: documentation/recommendations.neo4j-browser-guide
 :rendered-guide: https://guides.neo4j.com/sandbox/{name}/index.html
