@@ -731,13 +731,13 @@ We can also compute this measure using the https://neo4j.com/docs/graph-data-sci
 [source, cypher]
 ----
 MATCH (p1:User {name: 'Cynthia Freeman'})-[x:RATED]->(movie:Movie)
-WITH p1, gds.alpha.similarity.asVector(movie, x.rating) AS p1Vector
+WITH p1, gds.similarity.asVector(movie, x.rating) AS p1Vector
 MATCH (p2:User)-[x2:RATED]->(movie:Movie) WHERE p2 <> p1
-WITH p1, p2, p1Vector, gds.alpha.similarity.asVector(movie, x2.rating) AS p2Vector
+WITH p1, p2, p1Vector, gds.similarity.asVector(movie, x2.rating) AS p2Vector
 WHERE size(apoc.coll.intersection([v in p1Vector | v.category], [v in p2Vector | v.category])) > 10
 RETURN p1.name AS from,
        p2.name AS to,
-       gds.alpha.similarity.pearson(p1Vector, p2Vector, {vectorType: "maps"}) AS similarity
+       gds.similarity.pearson(p1Vector, p2Vector, {vectorType: "maps"}) AS similarity
 ORDER BY similarity DESC
 LIMIT 100
 ----
