@@ -804,13 +804,13 @@ ORDER BY score DESC LIMIT 25
 [source, cypher]
 ----
 MATCH (u1:User {name: 'Cynthia Freeman'})-[x:RATED]->(movie:Movie)
-WITH u1, gds.alpha.similarity.asVector(movie, x.rating) AS u1Vector
+WITH u1, gds.similarity.asVector(movie, x.rating) AS u1Vector
 MATCH (u2:User)-[x2:RATED]->(movie:Movie) WHERE u2 <> u1
 
-WITH u1, u2, u1Vector, gds.alpha.similarity.asVector(movie, x2.rating) AS u2Vector
+WITH u1, u2, u1Vector, gds.similarity.asVector(movie, x2.rating) AS u2Vector
 WHERE size(apoc.coll.intersection([v in u1Vector | v.category], [v in u2Vector | v.category])) > 10
 
-WITH u1, u2,  gds.alpha.similarity.pearson(u1Vector, u2Vector, {vectorType: "maps"}) AS similarity
+WITH u1, u2,  gds.similarity.pearson(u1Vector, u2Vector, {vectorType: "maps"}) AS similarity
 ORDER BY similarity DESC
 LIMIT 10
 
