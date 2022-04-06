@@ -797,7 +797,18 @@ RETURN m.title, SUM( pearson * r.rating) AS score
 ORDER BY score DESC LIMIT 25
 ----
 
+++++
+</div>
+++++
+
 == Collaborative Filtering – Neighborhood-Based Recommendations
+
+
+++++
+<div class="col-lg-3 ng-scope">
+++++
+
+=== Calculating KNN with GDS
 
 We will now explore how to calculate KNN using GDS.  In order to do this, we will use the following steps:
 
@@ -805,14 +816,15 @@ We will now explore how to calculate KNN using GDS.  In order to do this, we wil
 2. Generate graph embeddings using FastRP.
 3. Calculate KNN.
 
+
 ++++
 </div>
 ++++
 
-
 ++++
 <div class="col-lg-9 ng-scope">
 ++++
+
 
 .Create a graph projection
 [source, cypher]
@@ -862,7 +874,7 @@ RETURN nodesCompared, relationshipsWritten, similarityDistribution.mean as meanS
 ----
 
 .Explore the results
-[soluton, cypher]
+[source, cypher]
 ----
 MATCH (u1:User)-[r:SIMILAR]->(u2:User) 
 RETURN u1.name, u2.name, r.score
