@@ -730,16 +730,14 @@ We can also compute this measure using the https://neo4j.com/docs/graph-data-sci
 .Find users most similar to Cynthia Freeman, according to the Pearson similarity function
 [source, cypher]
 ----
-MATCH (p1:User {name: 'Cynthia Freeman'})-[x:RATED]->(movie:Movie)
-WITH p1, gds.similarity.asVector(movie, x.rating) AS p1Vector
-MATCH (p2:User)-[x2:RATED]->(movie:Movie) WHERE p2 <> p1
-WITH p1, p2, p1Vector, gds.similarity.asVector(movie, x2.rating) AS p2Vector
-WHERE size(apoc.coll.intersection([v in p1Vector | v.category], [v in p2Vector | v.category])) > 10
+MATCH (p1:User {name: 'Cynthia Freeman'})-[x:RATED]->(movie)<-[x2:RATED]-(p2:User)
+WHERE p2 <> p1
+WITH p1, p2, collect(x.rating) AS p1Ratings, collect(x2.rating) AS p2Ratings
+WHERE size(p1Ratings) > 10
 RETURN p1.name AS from,
        p2.name AS to,
-       gds.similarity.pearson(p1Vector, p2Vector, {vectorType: "maps"}) AS similarity
+       gds.similarity.pearson(p1Ratings, p2Ratings) AS similarity
 ORDER BY similarity DESC
-LIMIT 100
 ----
 
 ++++
