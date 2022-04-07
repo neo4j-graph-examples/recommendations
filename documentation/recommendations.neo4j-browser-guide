@@ -88,10 +88,10 @@
 </li>
 </ol>
 </div>
-<img src="http://guides.neo4j.com/sandbox/recommendations/img/title1.png" class="img-responsive">
+<img src="http://guides.neo4j.com/intro/img/title1.png" class="img-responsive">
 </div>
 <div class="col-lg-4 ng-scope">
-<img src="http://guides.neo4j.com/sandbox/recommendations/img/openmoviegraph.png" class="img-responsive">
+<img src="http://guides.neo4j.com/intro/img/openmoviegraph.png" class="img-responsive">
 <div class="sidebarblock">
 <div class="content">
 <div class="paragraph">
@@ -162,7 +162,7 @@
 </div>
 </div>
 <div class="col-lg-8 ng-scope">
-<img src="http://guides.neo4j.com/sandbox/recommendations/img/datamodel.png" class="img-responsive">
+<img src="http://guides.neo4j.com/intro/img/datamodel.png" class="img-responsive">
 <div class="col-lg-4 ng-scope">
 
 
@@ -270,8 +270,7 @@
 WHERE m.title CONTAINS "Matrix"
 WITH m, COUNT(*) AS reviews
 RETURN m.title AS movie, reviews
-ORDER BY reviews DESC
-LIMIT 5;<!--/code--></pre>
+ORDER BY reviews DESC LIMIT 5;<!--/code--></pre>
 </div>
 </div>
 <table class="table tableblock frame-all grid-all" style="width: 100%;">
@@ -298,7 +297,7 @@ LIMIT 5;<!--/code--></pre>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">return</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RETURN m.title AS movie, reviews</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RETURN m.title as movie, reviews</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Specify columns to be returned by the statement</p></td>
 </tr>
 <tr>
@@ -336,7 +335,7 @@ LIMIT 5;<!--/code--></pre>
    <div class="paragraph">
 <p>Recommend items that are similar to those that a user is viewing, rated highly or purchased previously.</p>
 </div>
-<img src="http://guides.neo4j.com/sandbox/recommendations/img/content1.png" class="img-responsive">
+<img src="http://guides.neo4j.com/intro/img/content1.png" class="img-responsive">
 <div class="listingblock">
 <div class="title">"Products similar to the product you&#8217;re looking at now"</div>
 <div class="content">
@@ -353,7 +352,7 @@ RETURN p LIMIT 25<!--/code--></pre>
    <div class="paragraph">
 <p>Use the preferences, ratings and actions of other users in the network to find items to recommend.</p>
 </div>
-<img src="http://guides.neo4j.com/sandbox/recommendations/img/cf1.png" class="img-responsive">
+<img src="http://guides.neo4j.com/intro/img/cf1.png" class="img-responsive">
 <div class="listingblock">
 <div class="title">"Users who bought this thing, also bought that other thing."</div>
 <div class="content">
@@ -379,7 +378,7 @@ RETURN rec.title AS recommendation, usersWhoAlsoWatched<!--/code--></pre>
 <div class="paragraph">
 <p>The goal of content-based filtering is to find similar items, using attributes (or traits) of the item. Using our movie data, one way we could define similarlity is movies that have common genres.</p>
 </div>
-<img src="http://guides.neo4j.com/sandbox/recommendations/img/genres.png" class="img-responsive">
+<img src="http://guides.neo4j.com/intro/img/genres.png" class="img-responsive">
 
 
 
@@ -464,7 +463,7 @@ RETURN rec.title AS recommendation, (5*gs)+(3*as)+(4*ds) AS score ORDER BY score
 
 
    <h4>Jaccard Index</h4>
-   <img src="http://guides.neo4j.com/sandbox/recommendations/img/jaccard.png" class="img-responsive">
+   <img src="http://guides.neo4j.com/intro/img/jaccard.png" class="img-responsive">
 <div class="paragraph">
 <p>The Jaccard index is a number between 0 and 1 that indicates how similar two sets are. The Jaccard index of two identical sets is 1. If two sets do not have a common element, then the Jaccard index is 0. The Jaccard is calculated by dividing the size of the intersection of two sets by the union of the two sets.</p>
 </div>
@@ -495,7 +494,7 @@ RETURN m.title, other.title, s1,s2,((1.0*intersection)/SIZE(union)) AS jaccard O
 </div>
 <div class="listingblock">
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie {title: "Inception"})-[:IN_GENRE|ACTED_IN|DIRECTED]-(t)-[:IN_GENRE|ACTED_IN|DIRECTED]-(other:Movie)
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (m:Movie {title: "Inception"})-[:IN_GENRE|ACTED_IN|DIRECTED]-(t)<-[:IN_GENRE|ACTED_IN|DIRECTED]-(other:Movie)
 WITH m, other, COUNT(t) AS intersection, COLLECT(t.name) AS i
 MATCH (m)-[:IN_GENRE|ACTED_IN|DIRECTED]-(mt)
 WITH m,other, intersection,i, COLLECT(mt.name) AS s1
@@ -504,7 +503,7 @@ WITH m,other,intersection,i, s1, COLLECT(ot.name) AS s2
 
 WITH m,other,intersection,s1,s2
 
-WITH m,other,intersection,s1+[x IN s2 WHERE NOT x IN s1] AS union, s1, s2
+WITH m,other,intersection,s1+ [x IN s2 WHERE NOT x IN s1] AS union, s1, s2
 
 RETURN m.title, other.title, s1,s2,((1.0*intersection)/SIZE(union)) AS jaccard ORDER BY jaccard DESC LIMIT 100<!--/code--></pre>
 </div>
@@ -522,7 +521,7 @@ RETURN m.title, other.title, s1,s2,((1.0*intersection)/SIZE(union)) AS jaccard O
     <br/>
     <div>
       <div class="col-lg-6 ng-scope">
-<img src="http://guides.neo4j.com/sandbox/recommendations/img/cf2.png" class="img-responsive">
+<img src="http://guides.neo4j.com/intro/img/cf2.png" class="img-responsive">
 <div class="paragraph">
 <p>Notice that we have user-movie ratings in our graph. The collaborative filtering approach is going to make use of this information to find relevant recommendations.</p>
 </div>
@@ -650,7 +649,7 @@ ORDER BY sscore DESC LIMIT 10<!--/code--></pre>
 
 
    <h4>Cosine Similarity</h4>
-   <img src="http://guides.neo4j.com/sandbox/recommendations/img/cosine.png" class="img-responsive">
+   <img src="http://guides.neo4j.com/intro/img/cosine.png" class="img-responsive">
 <div class="paragraph">
 <p>The cosine similarity of two users will tell us how similar two users' preferences for movies are. Users with a high cosine similarity will have similar preferences.</p>
 </div>
@@ -674,7 +673,7 @@ LIMIT 100;<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>We can also compute this measure using the <a href="https://neo4j.com/docs/graph-algorithms/current/algorithms/similarity-cosine" target="_blank">Cosine Similarity algorithm</a> in the Neo4j Graph Algorithms Library.</p>
+<p>We can also compute this measure using the <a href="https://neo4j.com/docs/graph-data-science/current/alpha-algorithms/cosine/" target="_blank">Cosine Similarity algorithm</a> in the Neo4j Graph Data Science Library.</p>
 </div>
 <div class="listingblock">
 <div class="title">Find the users with the most similar preferences to Cynthia Freeman, according to cosine similarity function</div>
@@ -685,7 +684,7 @@ WITH p1, p2, collect(x.rating) AS p1Ratings, collect(x2.rating) AS p2Ratings
 WHERE size(p1Ratings) &gt; 10
 RETURN p1.name AS from,
        p2.name AS to,
-       gds.alpha.similarity.cosine(p1Ratings, p2Ratings) AS similarity
+       gds.similarity.cosine(p1Ratings, p2Ratings) AS similarity
 ORDER BY similarity DESC<!--/code--></pre>
 </div>
 </div>
@@ -709,7 +708,7 @@ ORDER BY similarity DESC<!--/code--></pre>
 <div class="paragraph">
 <p>Pearson similarity, or Pearson correlation, is another similarity metric we can use. This is particularly well-suited for product recommendations because it takes into account the fact that different users will have different <strong>mean ratings</strong>: on average some users will tend to give higher ratings than others. Since Pearson similarity considers differences about the mean, this metric will account for these discrepancies.</p>
 </div>
-<img src="http://guides.neo4j.com/sandbox/recommendations/img/pearson.png" class="img-responsive">
+<img src="http://guides.neo4j.com/intro/img/pearson.png" class="img-responsive">
 </div>
 <div class="col-lg-9 ng-scope">
 <div class="listingblock">
@@ -735,21 +734,19 @@ ORDER BY pearson DESC LIMIT 100<!--/code--></pre>
 </div>
 </div>
 <div class="paragraph">
-<p>We can also compute this measure using the <a href="https://neo4j.com/docs/graph-algorithms/current/algorithms/similarity-pearson" target="_blank">Pearson Similarity algorithm</a> in the Neo4j Graph Algorithms Library.</p>
+<p>We can also compute this measure using the <a href="https://neo4j.com/docs/graph-data-science/current/alpha-algorithms/pearson/" target="_blank">Pearson Similarity algorithm</a> in the Neo4j Graph Data Science Library.</p>
 </div>
 <div class="listingblock">
 <div class="title">Find users most similar to Cynthia Freeman, according to the Pearson similarity function</div>
 <div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p1:User {name: 'Cynthia Freeman'})-[x:RATED]-&gt;(movie:Movie)
-WITH p1, gds.alpha.similarity.asVector(movie, x.rating) AS p1Vector
-MATCH (p2:User)-[x2:RATED]-&gt;(movie:Movie) WHERE p2 &lt;&gt; p1
-WITH p1, p2, p1Vector, gds.alpha.similarity.asVector(movie, x2.rating) AS p2Vector
-WHERE size(apoc.coll.intersection([v in p1Vector | v.category], [v in p2Vector | v.category])) &gt; 10
+<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (p1:User {name: 'Cynthia Freeman'})-[x:RATED]-&gt;(movie)&lt;-[x2:RATED]-(p2:User)
+WHERE p2 &lt;&gt; p1
+WITH p1, p2, collect(x.rating) AS p1Ratings, collect(x2.rating) AS p2Ratings
+WHERE size(p1Ratings) &gt; 10
 RETURN p1.name AS from,
        p2.name AS to,
-       gds.alpha.similarity.pearson(p1Vector, p2Vector, {vectorType: "maps"}) AS similarity
-ORDER BY similarity DESC
-LIMIT 100<!--/code--></pre>
+       gds.similarity.pearson(p1Ratings, p2Ratings) AS similarity
+ORDER BY similarity DESC<!--/code--></pre>
 </div>
 </div>
 </div>
@@ -768,7 +765,7 @@ LIMIT 100<!--/code--></pre>
 
 
 
-   <h4>kNN – k Nearest Neighbors</h4>
+   <h4>kNN – K-Nearest Neighbors</h4>
    <div class="paragraph">
 <p>Now that we have a method for finding similar users based on preferences, the next step is to allow each of the <strong>k</strong> most similar users to vote for what items should be recommended.</p>
 </div>
@@ -804,25 +801,6 @@ ORDER BY pearson DESC LIMIT 10
 MATCH (u2)-[r:RATED]->(m:Movie) WHERE NOT EXISTS( (u1)-[:RATED]->(m) )
 
 RETURN m.title, SUM( pearson * r.rating) AS score
-ORDER BY score DESC LIMIT 25<!--/code--></pre>
-</div>
-</div>
-<div class="listingblock">
-<div class="title">kNN movie recommendation using Pearson similarity function</div>
-<div class="content">
-<pre mode="cypher"  class="highlight pre-scrollable programlisting cm-s-neo code runnable standalone-example ng-binding" data-lang="cypher" lang="cypher"><!--code class="cypher language-cypher"-->MATCH (u1:User {name: 'Cynthia Freeman'})-[x:RATED]-&gt;(movie:Movie)
-WITH u1, gds.alpha.similarity.asVector(movie, x.rating) AS u1Vector
-MATCH (u2:User)-[x2:RATED]-&gt;(movie:Movie) WHERE u2 &lt;&gt; u1
-
-WITH u1, u2, u1Vector, gds.alpha.similarity.asVector(movie, x2.rating) AS u2Vector
-WHERE size(apoc.coll.intersection([v in u1Vector | v.category], [v in u2Vector | v.category])) &gt; 10
-
-WITH u1, u2,  gds.alpha.similarity.pearson(u1Vector, u2Vector, {vectorType: "maps"}) AS similarity
-ORDER BY similarity DESC
-LIMIT 10
-
-MATCH (u2)-[r:RATED]-&gt;(m:Movie) WHERE NOT EXISTS( (u1)-[:RATED]-&gt;(m) )
-RETURN m.title, SUM( similarity * r.rating) AS score
 ORDER BY score DESC LIMIT 25<!--/code--></pre>
 </div>
 </div>
@@ -889,7 +867,7 @@ ORDER BY score DESC LIMIT 25<!--/code--></pre>
 <p><strong>Keyword extraction</strong>: Enhance the traits available using the plot description. How would you model extracted keywords for movies?</p>
 </li>
 <li>
-<p><strong>Image recognition using posters</strong>: There are several libraries and APIs that offer image recognition and tagging. Since we have movie poster images for each movie, how could we use these to enhance our recommendations?</p>
+<p><strong>Image recognition using posters</strong>: There are several libraries and APIs that offer image recognition and tagging. Since we have movie poster images for each movie, how could we use these to enhance our recomendations?</p>
 </li>
 </ul>
 </div>
