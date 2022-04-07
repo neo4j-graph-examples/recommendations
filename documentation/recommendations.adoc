@@ -801,7 +801,90 @@ ORDER BY score DESC LIMIT 25
 </div>
 ++++
 
+// == Collaborative Filtering – Neighborhood-Based Recommendations
 
+
+// ++++
+// <div class="col-lg-3 ng-scope">
+// ++++
+
+// === Calculating KNN with GDS
+
+// We will now explore how to calculate KNN using GDS.  In order to do this, we will use the following steps:
+
+// 1. Create a graph projection utilizing the `User` and `Movie` nodes with the `RATED` relationship.
+// 2. Generate graph embeddings using FastRP.
+// 3. Calculate KNN.
+
+
+// ++++
+// </div>
+// ++++
+
+// ++++
+// <div class="col-lg-9 ng-scope">
+// ++++
+
+
+// .Create a graph projection
+// [source, cypher]
+// ----
+// CALL gds.graph.project(
+// 	'ratings',
+//     ['User', 'Movie'],
+//     {
+//     	RATED: {
+//         	orientation: 'UNDIRECTED',
+//             properties: 'rating'
+//         }
+//     }
+// )
+// ----
+
+// .Generate FastRP embeddings
+// [source, cypher]
+// ----
+// CALL gds.fastRP.mutate(
+// 	'ratings',
+//     {
+//     	embeddingDimension: 4,
+//         randomSeed: 42,
+//         mutateProperty: 'embedding',
+//         relationshipWeightProperty: 'rating'
+//     }
+// )
+// ----
+
+// .Write KNN results to the nodes
+// [source, cypher]
+// ----
+// CALL gds.knn.write(
+// 	'ratings',
+//     {
+//     	topK: 2,
+//         nodeProperties: ['embedding'],
+//         randomSeed: 42,
+//         concurrency: 1,
+//         writeRelationshipType: 'SIMILAR',
+//         writeProperty: 'score'
+//     }
+// )
+// YIELD nodesCompared, relationshipsWritten, similarityDistribution
+// RETURN nodesCompared, relationshipsWritten, similarityDistribution.mean as meanSimilarity
+// ----
+
+// .Explore the results
+// [source, cypher]
+// ----
+// MATCH (u1:User)-[r:SIMILAR]->(u2:User) 
+// RETURN u1.name, u2.name, r.score
+// ORDER BY r.score DESC
+// LIMIT 10
+// ----
+
+// ++++
+// </div>
+// ++++
 
 //== Group Recommender System
 //
