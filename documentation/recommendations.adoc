@@ -3,7 +3,7 @@
 :movie_name: 'Matrix'
 :experimental:
 :icon: font
-:img: /img
+:img: ./img
 
 == Personalized Product Recommendations with Neo4j
 
