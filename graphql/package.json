@@ -15,6 +15,7 @@
     "apollo-server": "^3.8.2",
     "apollo-server-lambda": "^3.8.2",
     "dotenv": "^8.2.0",
+    "graphql": "^16.5.0",
     "neo4j-driver": "^4.3.3"
   }
 }
