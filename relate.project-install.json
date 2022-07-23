@@ -1,5 +1,7 @@
 {
     "name": "recommendations",
+    "icon": "documentation/img/icon-movie.svg",
+    "title": "Movie Recommendations",
     "description":"Generate personalized real-time recommendations using a dataset of movie reviews",
     "dbms": [
       {
