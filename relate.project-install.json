@@ -18,6 +18,11 @@
           "dumpFile": "data/recommendations-43.dump",
           "targetNeo4jVersion": ">=4.3.0 <5.0.0",
           "plugins": ["apoc", "graph-data-science"]
+      },
+      {
+          "dumpFile": "data/recommendations-50.dump",
+          "targetNeo4jVersion": ">=5.0.0 <6.0.0",
+          "plugins": ["apoc", "graph-data-science"]
       }
   ]
 }
