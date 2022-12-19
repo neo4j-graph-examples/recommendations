@@ -116,8 +116,8 @@ Boolean logic operators, regular expressions and string comparison operators can
 
 There is an implicit group of all non-aggregated fields when using aggregation functions such as `count`.
 
-Take the https://graphacademy.neo4j.com/courses/cypher-fundamentals/[Cypher Graphacademy courses^] to learn more.
-Use the link:https://neo4j.com/docs/cypher-refcard/current/?ref=browser-guide[Cypher Refcard^] as a syntax reference.
+Take the https://graphacademy.neo4j.com/courses/cypher-fundamentals/[Cypher GraphAcademy courses^] to learn more.
+Use the link:https://neo4j.com/docs/cypher-refcard/current/?ref=browser-guide[Cypher Cheat Sheet^] as a syntax reference.
 
 
 == Dissecting a Cypher Statement
@@ -139,12 +139,12 @@ RETURN m.title AS movie, reviews
 ORDER BY reviews DESC LIMIT 5;
 ----
 
-[width=100,cols="1,3,2"]
+[width=75,cols="1,3,2"]
 |===
 | find      | `+MATCH (m:Movie)<-[:RATED]-(u:User)+`         | Search for an existing graph pattern
 | filter    | `WHERE m.title CONTAINS "Matrix"`              | Filter matching paths to only those matching a predicate
-| aggregate | `WITH m, count(*) AS reviews`   | Count number of paths matched for each movie
-| return    | `RETURN m.title as movie, reviews`                        | Specify columns to be returned by the statement
+| aggregate | `WITH m, count(*) AS reviews`                  | Count number of paths matched for each movie
+| return    | `RETURN m.title as movie, reviews`             | Specify columns to be returned by the statement
 | order     | `ORDER BY reviews DESC`                        | Order by number of reviews, in descending order
 | limit     | `LIMIT 5;`                                     | Only return first five records
 |===
