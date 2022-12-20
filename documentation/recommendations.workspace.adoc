@@ -144,7 +144,7 @@ ORDER BY reviews DESC LIMIT 5;
 | find      | `+MATCH (m:Movie)<-[:RATED]-(u:User)+`         | Search for an existing graph pattern
 | filter    | `WHERE m.title CONTAINS "Matrix"`              | Filter matching paths to only those matching a predicate
 | aggregate | `WITH m, count(*) AS reviews`                  | Count number of paths matched for each movie
-| return    | `RETURN m.title as movie, reviews`             | Specify columns to be returned by the statement
+| return    | `RETURN m.title as movie, reviews`                        | Specify columns to be returned by the statement
 | order     | `ORDER BY reviews DESC`                        | Order by number of reviews, in descending order
 | limit     | `LIMIT 5;`                                     | Only return first five records
 |===
@@ -246,26 +246,6 @@ ORDER BY score DESC LIMIT 25
 RETURN rec.title AS recommendation, score 
 ----
 
-
-
-////
-pre-5.x
-MATCH (m:Movie) WHERE m.title = 'Wizard of Oz, The'
-MATCH (m)-[:IN_GENRE]->(g:Genre)<-[:IN_GENRE]-(rec:Movie)
-
-WITH m, rec, count(*) AS gs
-
-OPTIONAL MATCH (m)<-[:ACTED_IN]-(a)-[:ACTED_IN]->(rec)
-WITH m, rec, gs, count(a) AS as
-
-OPTIONAL MATCH (m)<-[:DIRECTED]-(d)-[:DIRECTED]->(rec)
-WITH m, rec, gs, as, count(d) AS ds
-
-RETURN rec.title AS recommendation, 
-       (5*gs)+(3*as)+(4*ds) AS score 
-ORDER BY score DESC LIMIT 25
-////
-
 == Content-Based Similarity Metrics
 
 So far we've used the number of common traits as a way to score the relevance of our recommendations. 
@@ -300,24 +280,6 @@ RETURN m.title, other.title, common, set1,set2,
 
 ORDER BY jaccard DESC LIMIT 25
 ----
-
-////
-[source,cypher]
-----
-MATCH (m:Movie {title: 'Inception'})-[:IN_GENRE]->
-                          (g:Genre)<-[:IN_GENRE]-(other:Movie)
-WITH m, other, count(g) AS intersection, collect(g) as common
-
-WITH m,other, intersection, [g IN common | g.name] as commonNames,
-     [(m)-[:IN_GENRE]->(mg) WHERE NOT mg in common | mg.name] AS extra1,
-     [(other)-[:IN_GENRE]->(og) WHERE NOT og in common | og.name] AS extra2
-
-RETURN m.title, other.title, commonNames, extra1, extra2,
-       ((1.0*intersection)/(size(commonNames)+size(extra1)+size(extra2))) AS jaccard 
-
-ORDER BY jaccard DESC LIMIT 25
-----
-////
 
 We can apply this same approach to all "traits" of the movie (genre, actors, directors, etc.):
 
@@ -467,8 +429,6 @@ image::{img}/cosine.png[width=400px]
 The **cosine similarity** of two users will tell us how similar two users' preferences for movies are. 
 Users with a high cosine similarity have similar preferences.
 
-// See this link:https://neo4j.com/graphgist/a7c915c8-a3d6-43b9-8127-1836fecc6e2f[GraphGist] for another example of using cosine similarity for recommendations.
-
 .Find the users with the most similar preferences to Cynthia Freeman, according to cosine similarity
 [source,cypher,subs=attributes]
 ----
@@ -486,25 +446,6 @@ RETURN p1.name, p2.name, xyDotProduct / (xLength * yLength) AS sim
 ORDER BY sim DESC
 LIMIT 100;
 ----
-
-ifndef::env-auradb[]
-
-We can also compute this measure using the https://neo4j.com/docs/graph-data-science/current/alpha-algorithms/cosine/[Cosine Similarity algorithm^] in the Neo4j Graph Data Science Library.
-
-.Find the users with the most similar preferences to Cynthia Freeman, according to cosine similarity function
-[source, cypher]
-----
-MATCH (p1:User {name: 'Cynthia Freeman'})-[x:RATED]->(movie)<-[x2:RATED]-(p2:User)
-WHERE p2 <> p1
-WITH p1, p2, collect(x.rating) AS p1Ratings, collect(x2.rating) AS p2Ratings
-WHERE size(p1Ratings) > 10
-RETURN p1.name AS from,
-       p2.name AS to,
-       gds.similarity.cosine(p1Ratings, p2Ratings) AS similarity
-ORDER BY similarity DESC
-----
-
-endif::env-auradb[]
 
 == Collaborative Filtering – Similarity Metrics
 
@@ -539,24 +480,6 @@ RETURN u1.name, u2.name, nom/denom AS pearson
 ORDER BY pearson DESC LIMIT 100
 ----
 
-ifndef::env-auradb[]
-
-We can also compute this measure using the https://neo4j.com/docs/graph-data-science/current/alpha-algorithms/pearson/[Pearson Similarity algorithm^] in the Neo4j Graph Data Science Library.
-
-.Find users most similar to Cynthia Freeman, according to the Pearson similarity function
-[source, cypher]
-----
-MATCH (p1:User {name: 'Cynthia Freeman'})-[x:RATED]->(movie)<-[x2:RATED]-(p2:User)
-WHERE p2 <> p1
-WITH p1, p2, collect(x.rating) AS p1Ratings, collect(x2.rating) AS p2Ratings
-WHERE size(p1Ratings) > 10
-RETURN p1.name AS from,
-       p2.name AS to,
-       gds.similarity.pearson(p1Ratings, p2Ratings) AS similarity
-ORDER BY similarity DESC
-----
-
-endif::env-auradb[]
 
 == Collaborative Filtering – Neighborhood-Based Recommendations
 
@@ -597,114 +520,14 @@ RETURN m.title, SUM( pearson * r.rating) AS score
 ORDER BY score DESC LIMIT 25
 ----
 
-////
-== Collaborative Filtering – Neighborhood-Based Recommendations
-
-
-=== Calculating KNN with GDS
-
-We will now explore how to calculate KNN using GDS.  In order to do this, we will use the following steps:
-
-1. Create a graph projection utilizing the `User` and `Movie` nodes with the `RATED` relationship.
-2. Generate graph embeddings using FastRP.
-3. Calculate KNN.
-
-
-.Create a graph projection
-[source, cypher]
-----
-CALL gds.graph.project(
-	'ratings',
-    ['User', 'Movie'],
-    {
-    	RATED: {
-        	orientation: 'UNDIRECTED',
-            properties: 'rating'
-        }
-    }
-)
-----
-
-.Generate FastRP embeddings
-[source, cypher]
-----
-CALL gds.fastRP.mutate(
-	'ratings',
-    {
-    	embeddingDimension: 4,
-        randomSeed: 42,
-        mutateProperty: 'embedding',
-        relationshipWeightProperty: 'rating'
-    }
-)
-----
-
-.Write KNN results to the nodes
-[source, cypher]
-----
-CALL gds.knn.write(
-	'ratings',
-    {
-    	topK: 2,
-        nodeProperties: ['embedding'],
-        randomSeed: 42,
-        concurrency: 1,
-        writeRelationshipType: 'SIMILAR',
-        writeProperty: 'score'
-    }
-)
-YIELD nodesCompared, relationshipsWritten, similarityDistribution
-RETURN nodesCompared, relationshipsWritten, similarityDistribution.mean as meanSimilarity
-----
-
-.Explore the results
-[source, cypher]
-----
-MATCH (u1:User)-[r:SIMILAR]->(u2:User) 
-RETURN u1.name, u2.name, r.score
-ORDER BY r.score DESC
-LIMIT 10
-----
-
-== Group Recommender System
-
-Is it possible to make recommendations to a group of users? In the context of this example, can we recommend a restaurant that takes into account information about the individual users' likes and dislikes? There are many strategies for aggregating a group of users' preferences. This is an example of the application of "Social Choice Theory." For example:
-
-* Plurality voting
-* Average
-* Multiplicative
-* Borda Count
-* Least misery
-* Most pleasure
-
-.Some code caption
-[source,cypher,subs=attributes]
-----
-WIP
-MATCH (u1:User {name: "Misty Williams"}),
-     (u2:User {name: "Cynthia Freeman"})
-
-WITH [u1,u2] AS users
-
-UNWIND users AS u
-MATCH (u)-[r:RATED]->(:Movie)-[:IN_GENRE]->(g:Genre)
-WITH u, g, avg(r.rating) AS a
-
-MATCH (rec:Movie)-[:IN_GENRE]->(g)
-WHERE NOT EXISTS( (u)-[:RATED]->(rec))
-WITH rec.title AS movie, collect(g.name) AS gs, collect(a) AS as, avg(a) AS score
-RETURN movie, gs, as, score+SIZE(gs) AS score
-ORDER BY score DESC LIMIT 50
-----
-////
 
 == Further Work
 
 === Resources
 
 // TODO update links
-* Web link:https://neo4j.com/docs/cypher-refcard/current/?ref=browser-guide[Cypher Refcard^]
-* Web link:https://neo4j.com/docs/?ref=browser-guide[Neo4j Documentation^]
+* Web link:https://neo4j.com/docs/cypher-cheat-sheet/current/[Cypher Cheat Sheet^]
+* Web link:https://neo4j.com/docs/[Neo4j Documentation^]
 * Blog Post link:https://neo4j.com/blog/collaborative-filtering-creating-teams/?ref=browser-guide[Collaborative Filtering: Creating the Best Teams Ever^]
 * Video link:https://www.youtube.com/watch?v=60E2WV4iwIg[Data Science and Recommendations^]
 * Web link:https://neo4j.com/use-cases/real-time-recommendation-engine/?ref=browser-guide[Use-Case: Real-Time Recommendation Engines^]
