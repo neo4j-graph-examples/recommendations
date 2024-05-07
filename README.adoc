@@ -84,6 +84,9 @@ bin/neo4j-admin load --from {use-dump-file} [--database "database"]
 ----
 
 * Upload the dump file to Neo4j Aura via https://console.neo4j.io/#import-instructions
+
+Note: `recommendations-embeddings-50.dump` was dumped from Neo4j 5.18.
+
 endif::[]
 
 ifeval::[{use-load-script} != false]
