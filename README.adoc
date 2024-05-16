@@ -74,7 +74,8 @@ endif::[]
 ==== Dump file: `data/recommendations-embeddings-50.dump`
 
 The file was dumped from Neo4j 5.13.
-It is based on `recommendations-50.dump`, enriched with embeddings provided from https://data.neo4j.com/rec-embed/README.html.
+It is based on `recommendations-50.dump`, enriched with embeddings provided from https://data.neo4j.com/rec-embed/README.html on `Movie` nodes, under the property `embedding`.
+It does *not* contain a vector index.
 
 ifeval::[{use-dump-file} != false]
 ==== Dump file: `{use-dump-file}`
