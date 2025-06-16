@@ -1,19 +1,26 @@
 == recommendations-embeddings-aligned-2025.06-cypher25.backup
+== recommendations-embeddings-25.dump
 
-The file was exported from Neo4j 2025.06 and the database has Cypher 25 as default language version and `aligned` as store format.
-It is based on `recommendations-50.dump`, enriched with embeddings provided from https://data.neo4j.com/rec-embed/README.html on `Movie` nodes, under the property `embedding`.
+Exported from Neo4j 2025.06. 
+The database has Cypher 25 as default language version and `aligned` as store format.
 It does *not* contain a vector index.
+
+It is based on `recommendations-50.dump`, enriched with embeddings provided from https://data.neo4j.com/rec-embed/README.html on `Movie` nodes, under the property `embedding`.
 
 
 == recommendations-embeddings-aligned-2025.06-cypher5.backup
+== recommendations-embeddings-5.dump
 
-The file was exported from Neo4j 2025.06 and the database has Cypher 5 as default language version and `aligned` as store format.
-It is based on `recommendations-50.dump`, enriched with embeddings provided from https://data.neo4j.com/rec-embed/README.html on `Movie` nodes, under the property `embedding`.
+Exported from Neo4j 2025.06. 
+The database has Cypher 5 as default language version and `aligned` as store format.
 It does *not* contain a vector index.
+
+It is based on `recommendations-50.dump`, enriched with embeddings provided from https://data.neo4j.com/rec-embed/README.html on `Movie` nodes, under the property `embedding`.
 
 
 == recommendations-embeddings-50.dump
 
 The file was dumped from Neo4j 5.13.
-It is based on `recommendations-50.dump`, enriched with embeddings provided from https://data.neo4j.com/rec-embed/README.html on `Movie` nodes, under the property `embedding`.
 It does *not* contain a vector index.
+
+It is based on `recommendations-50.dump`, enriched with embeddings provided from https://data.neo4j.com/rec-embed/README.html on `Movie` nodes, under the property `embedding`.
