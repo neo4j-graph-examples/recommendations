@@ -2,3 +2,4 @@ data/recommendations-embeddings-50.dump filter=lfs diff=lfs merge=lfs -text
 data/recommendations-embeddings-aligned-2025.06-cypher* filter=lfs diff=lfs merge=lfs -text
 data/recommendations-embeddings-25.dump filter=lfs diff=lfs merge=lfs -text
 data/recommendations-embeddings-5.dump filter=lfs diff=lfs merge=lfs -text
+data/recommendations-embeddings-aligned-5.26.dump filter=lfs diff=lfs merge=lfs -text
