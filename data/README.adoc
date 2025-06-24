@@ -25,9 +25,9 @@ The database has Cypher 25 as default language version and `aligned` as store fo
 It does *not* contain a vector index.
 
 
-== recommendations-5.25.dump
+== recommendations-5.26.dump
 
-The file was dumped from Neo4j 5.26, and has `aligned` as store format.
+The file was dumped from Neo4j 5.26.8, and has `aligned` as store format.
 It does *not* contain a vector index.
 
 
