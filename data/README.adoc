@@ -31,6 +31,12 @@ The file was dumped from Neo4j 5.26.8, and has `aligned` as store format.
 It does *not* contain a vector index.
 
 
+== recommendations-5.26-block.dump
+
+The file was dumped from Neo4j 5.26.8, and has `block` as store format.
+It does *not* contain a vector index.
+
+
 == recommendations-embeddings-50.dump
 
 The file was dumped from Neo4j 5.13.
