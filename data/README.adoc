@@ -1,30 +1,3 @@
-== recommendations-embeddings-aligned-2025.06-cypher25.backup
-== recommendations-embeddings-25.dump
-
-Exported from Neo4j 2025.06.
-The database has Cypher 25 as default language version and `aligned` as store format.
-It does *not* contain a vector index.
-
-It is based on `recommendations-50.dump`, enriched with embeddings provided from https://data.neo4j.com/rec-embed/README.html on `Movie` nodes, under the property `embedding`.
-
-
-== recommendations-embeddings-aligned-2025.06-cypher5.backup
-== recommendations-embeddings-5.dump
-
-Exported from Neo4j 2025.06.
-The database has Cypher 5 as default language version and `aligned` as store format.
-It does *not* contain a vector index.
-
-It is based on `recommendations-50.dump`, enriched with embeddings provided from https://data.neo4j.com/rec-embed/README.html on `Movie` nodes, under the property `embedding`.
-
-
-== recommendations-25.dump
-
-Exported from Neo4j 2025.06.
-The database has Cypher 25 as default language version and `aligned` as store format.
-It does *not* contain a vector index.
-
-
 == recommendations-5.26.dump
 
 The file was dumped from Neo4j 5.26.8, and has `aligned` as store format.
@@ -37,9 +10,16 @@ The file was dumped from Neo4j 5.26.8, and has `block` as store format.
 It does *not* contain a vector index.
 
 
-== recommendations-embeddings-50.dump
+== recommendations-embeddings-aligned-5.26.dump
 
-The file was dumped from Neo4j 5.13.
+The file was dumped from Neo4j 5.26.8, and has `aligned` as store format.
 It does *not* contain a vector index.
 
-It is based on `recommendations-50.dump`, enriched with embeddings provided from https://data.neo4j.com/rec-embed/README.html on `Movie` nodes, under the property `embedding`.
+It is based on `recommendations-*.dump`, enriched with embeddings provided from https://data.neo4j.com/rec-embed/README.html on `Movie` nodes, under the property `embedding`.
+
+== recommendations-embeddings-block-5.26.dump
+
+The file was dumped from Neo4j 5.26.8, and has `block` as store format.
+It does *not* contain a vector index.
+
+It is based on `recommendations-*.dump`, enriched with embeddings provided from https://data.neo4j.com/rec-embed/README.html on `Movie` nodes, under the property `embedding`.
