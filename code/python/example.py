@@ -1,4 +1,4 @@
-# pip3 install neo4j-driver
+# pip3 install neo4j
 # python3 example.py
 
 from neo4j import GraphDatabase, basic_auth
