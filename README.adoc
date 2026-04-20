@@ -104,6 +104,26 @@ ifeval::[{zip-file} != false]
 Download the zip file link:{repo}/raw/master/{name}.zip[{name}.zip] and add it as "project from file" to https://neo4j.com/developer/neo4j-desktop[Neo4j Desktop^].
 endif::[]
 
+=== Embeddings
+
+The `data/recommendations-embeddings-aligned-5.26.dump` and `data/recommendations-embeddings-block-5.26.dump` files ship with pre-computed vector embeddings on `Movie` and `Person` nodes. The other dumps do *not* contain embeddings.
+
+[cols="1,2,3,1,2"]
+|===
+| Node | Property | Model | Dim | Encoded from
+
+| Movie | `plotEmbedding` | OpenAI `text-embedding-ada-002` | 1536 | `f"{title}: {plot}"`
+| Movie | `posterEmbedding` | `sentence-transformers/clip-ViT-B-32` (OpenAI CLIP) | 512 | poster image
+| Person | `bioEmbedding` | OpenAI `text-embedding-ada-002` | 1536 | `bio` text
+|===
+
+Same dimensions does *not* mean the same vector space — querying these embeddings requires the *same* model that produced them:
+
+* `plotEmbedding` / `bioEmbedding` — use OpenAI `text-embedding-ada-002`. Do *not* substitute `text-embedding-3-small`/`-large` (same 1536 dim, different space, returns garbage scores).
+* `posterEmbedding` — use `sentence-transformers/clip-ViT-B-32`, or its multilingual sibling `sentence-transformers/clip-ViT-B-32-multilingual-v1` which was distilled to align to the same vector space and lets you query with text in 50+ languages. Run locally with `sentence-transformers`, or call the HuggingFace Inference API. OpenAI's API does *not* expose CLIP.
+
+The source CSVs and the Python scripts that produced these embeddings are at https://data.neo4j.com/rec-embed/README.html.
+
 === Code Examples
 
 * link:code/javascript/example.js[JavaScript]
