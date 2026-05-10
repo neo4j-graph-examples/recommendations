@@ -8,7 +8,7 @@ const driver = neo4j.driver(
 );
 
 const typeDefs = /* GraphQL */ `
-type Movie {
+type Movie @exclude(operations: [CREATE, UPDATE, DELETE]) {
   budget: Int
   countries: [String]
   imdbId: ID
@@ -25,9 +25,9 @@ type Movie {
   tmdbId: String
   url: String
   year: Int
-  genres: [Genre] @relationship(type: "IN_GENRE", direction: OUT)
-  actors: [Actor] @relationship(type: "ACTED_IN", direction: IN)
-  directors: [Director] @relationship(type: "DIRECTED", direction: IN)
+  genres: [Genre!]! @relationship(type: "IN_GENRE", direction: OUT)
+  actors: [Actor!]! @relationship(type: "ACTED_IN", direction: IN)
+  directors: [Director!]! @relationship(type: "DIRECTED", direction: IN)
   similar(first: Int = 3): [Movie]
     @cypher(
       statement: """
@@ -38,18 +38,18 @@ type Movie {
     )
 }
 
-type Genre {
+type Genre @exclude(operations: [CREATE, UPDATE, DELETE]) {
   name: String
-  movies: [Movie] @relationship(type: "IN_GENRE", direction: IN)
+  movies: [Movie!]! @relationship(type: "IN_GENRE", direction: IN)
 }
 
-type User {
+type User @exclude(operations: [CREATE, UPDATE, DELETE]) {
   userId: ID!
   name: String
-  rated: [Movie] @relationship(type: "RATED", direction: OUT)
+  rated: [Movie!]! @relationship(type: "RATED", direction: OUT)
 }
 
-type Actor {
+type Actor @exclude(operations: [CREATE, UPDATE, DELETE]) {
   bio: String
   born: Date
   bornIn: String
@@ -58,10 +58,10 @@ type Actor {
   poster: String
   tmdbId: String
   url: String
-  acted_in: [Movie] @relationship(type: "ACTED_IN", direction: OUT)
+  acted_in: [Movie!]! @relationship(type: "ACTED_IN", direction: OUT)
 }
 
-type Director {
+type Director @exclude(operations: [CREATE, UPDATE, DELETE]) {
   bio: String
   bornIn: String
   imdbIb: String
@@ -69,7 +69,7 @@ type Director {
   poster: String
   tmdbId: String
   url: String
-  directed: [Movie] @relationship(type: "DIRECTED", direction: OUT)
+  directed: [Movie!]! @relationship(type: "DIRECTED", direction: OUT)
 }
 
 `;
